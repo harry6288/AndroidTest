@@ -82,8 +82,12 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.player = new Sprite(this.getContext(), 100, 700, R.drawable.player64);
         this.sparrow = new Sprite(this.getContext(), 500, 200, R.drawable.bird64);
         this.cat = new Sprite(this.getContext(),1500,700,R.drawable.cat64);
-// make bullets
-        
+//     make bullets
+     this.bullets.add(new Square(context,300,500,SQUARE_WIDTH));
+        this.bullets.add(new Square(context,300,600,SQUARE_WIDTH));
+        this.bullets.add(new Square(context,300,700,SQUARE_WIDTH));
+
+
 
     }
 
@@ -97,6 +101,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     }
     boolean Cat_Movingleft = true;
    final int Cat_Speed = 30;
+
     // Game Loop methods
     public void updateGame() {
         if (Cat_Movingleft == true) {
@@ -118,6 +123,14 @@ public class GameEngine extends SurfaceView implements Runnable {
         if(this.cat.getxPosition()> this.VISIBLE_RIGHT - Distance_FromWall )
         {
           Cat_Movingleft = true;
+        }
+
+
+        //bullets move
+        for(int i=0; i<this.bullets.size();i++)
+        {
+            Square b=this.bullets.get(i);
+
         }
 
 
@@ -199,6 +212,18 @@ public class GameEngine extends SurfaceView implements Runnable {
             String screenInfo = "Screen size: (" + this.screenWidth + "," + this.screenHeight + ")";
             canvas.drawText(screenInfo, 10, 100, paintbrush);
 
+
+//Draw bulets
+
+            for(int i=0;i<this.bullets.size();i++){
+
+                paintbrush.setColor(Color.YELLOW);
+                Square b=this.bullets.get(i);
+                int x=b.getxPosition();
+                int y=b.getyPosition();
+
+                canvas.drawRect(x,y,x+b.getWidth(),y+b.getWidth(),paintbrush);
+            }
             // --------------------------------
             holder.unlockCanvasAndPost(canvas);
         }
