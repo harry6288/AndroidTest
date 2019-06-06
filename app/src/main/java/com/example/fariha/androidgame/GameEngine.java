@@ -14,6 +14,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameEngine extends SurfaceView implements Runnable {
     private final String TAG = "SPARROW";
@@ -59,6 +60,7 @@ public class GameEngine extends SurfaceView implements Runnable {
 
     // GAME STATS
     int score = 0;
+
 
     public GameEngine(Context context, int screenW, int screenH) {
         super(context);
@@ -124,6 +126,15 @@ public class GameEngine extends SurfaceView implements Runnable {
         {
           Cat_Movingleft = true;
         }
+//Random Sparrow position
+              Random r = new Random();
+                int randX = r.nextInt(this.screenWidth) + 1;
+              int randY = r.nextInt(this.screenHeight) + 1;
+                      // Moving Bird
+        this.sparrow.setxPosition(randX - 10);
+           this.sparrow.setyPosition(randY - 10);
+
+
 
 
         //bullets move
@@ -242,6 +253,7 @@ public class GameEngine extends SurfaceView implements Runnable {
 
     // Deal with user input
     @Override
+
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
@@ -251,6 +263,7 @@ public class GameEngine extends SurfaceView implements Runnable {
         }
         return true;
     }
+
 
     // Game status - pause & resume
     public void pauseGame() {
