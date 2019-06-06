@@ -37,6 +37,10 @@ public class GameEngine extends SurfaceView implements Runnable {
     int VISIBLE_TOP;
     int VISIBLE_RIGHT;
     int VISIBLE_BOTTOM;
+    int Distance_FromWall = 300;
+
+
+
 
     // SPRITES
     Square bullet;
@@ -48,6 +52,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     Sprite player;
     Sprite sparrow;
     Sprite cat;
+
 
 
     ArrayList<Square> bullets = new ArrayList<Square>();
@@ -77,6 +82,8 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.player = new Sprite(this.getContext(), 100, 700, R.drawable.player64);
         this.sparrow = new Sprite(this.getContext(), 500, 200, R.drawable.bird64);
         this.cat = new Sprite(this.getContext(),1500,700,R.drawable.cat64);
+// make bullets
+        
 
     }
 
@@ -88,10 +95,37 @@ public class GameEngine extends SurfaceView implements Runnable {
             controlFPS();
         }
     }
-
+    boolean Cat_Movingleft = true;
+   final int Cat_Speed = 30;
     // Game Loop methods
     public void updateGame() {
+        if (Cat_Movingleft == true) {
+            this.cat.setxPosition(this.cat.getxPosition() - Cat_Speed);
+            this.cat.hitbox.left = this.cat.hitbox.left - Cat_Speed;
+            this.cat.hitbox.right = this.cat.hitbox.right - Cat_Speed;
+        } else {
+
+
+            this.cat.setxPosition(this.cat.getxPosition() + Cat_Speed);
+            this.cat.hitbox.left = this.cat.hitbox.left + Cat_Speed;
+            this.cat.hitbox.right = this.cat.hitbox.right + Cat_Speed;
+
+        }
+        if (this.cat.getxPosition()< this.VISIBLE_LEFT + Distance_FromWall)
+        {
+           Cat_Movingleft = false;
+        }
+        if(this.cat.getxPosition()> this.VISIBLE_RIGHT - Distance_FromWall )
+        {
+          Cat_Movingleft = true;
+        }
+
+
+
     }
+
+
+
 
 
     public void outputVisibleArea() {
@@ -140,8 +174,8 @@ public class GameEngine extends SurfaceView implements Runnable {
             canvas.drawBitmap(this.cat.getImage(), this.cat.getxPosition(), this.cat.getyPosition(), paintbrush);
 
             //4. draw Cage
-            canvas.drawRect(1700,300,1200,80,paintbrush);
 
+            canvas.drawRect(1700,150,1200,50,paintbrush);
 
             // --------------------------------------------------------
             // draw hitbox on player
@@ -150,6 +184,12 @@ public class GameEngine extends SurfaceView implements Runnable {
             paintbrush.setStyle(Paint.Style.STROKE);
             canvas.drawRect(r, paintbrush);
 
+
+            //draw the hit box on cat
+
+            Rect r1 = cat.getHitbox();
+            paintbrush.setStyle(Paint.Style.STROKE);
+            canvas.drawRect(r1, paintbrush);
 
             // --------------------------------------------------------
             // draw hitbox on player
